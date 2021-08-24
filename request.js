@@ -17,8 +17,14 @@ const getTodos = (resource) => {
   });
 };
 
-getTodos('todos/jaid1.json').then(data => {
-  console.log('Promise resolved:', data);
+getTodos('todos/jaid.json').then(data => {
+  console.log('Promise 1 resolved:', data);
+  return getTodos('todos/hugo.json');
+}).then(data => {
+  console.log('Promise 2 resolved:', data);
+  return getTodos('todos/joseph.json');
+}).then(data => {
+  console.log('Promise 3 resolved:', data);
 }).catch(err => {
   console.log('Promise rejected:', err);
 });
