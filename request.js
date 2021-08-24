@@ -1,44 +1,24 @@
-const getTodos = (resource, callback) => {
-  const request = new XMLHttpRequest();
+const getTodos = (resource) => {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
 
-  request.addEventListener('readystatechange', () => {
-    if(request.readyState === 4 && request.status === 200){
-      const data = JSON.parse(request.responseText);
-      callback(undefined, data);
-    }
-    else if(request.readyState === 4) {
-      callback('Could not fetch data', undefined);
-    }
+    request.addEventListener('readystatechange', () => {
+      if(request.readyState === 4 && request.status === 200){
+        const data = JSON.parse(request.responseText);
+        resolve(data);
+      }
+      else if(request.readyState === 4) {
+        reject('Could not fetch data');
+      }
+    });
+    
+    request.open('GET', resource);
+    request.send();
   });
-  
-  // request.open('GET', 'https://jsonplaceholder.typicode.com/todos/');
-  request.open('GET', resource);
-  request.send();
 };
 
-getTodos('todos/jaid.json', (err, data) => {
-  if(err) {
-    console.log(err);
-  } 
-  else {
-    console.log(data);
-  }
-});
-
-getTodos('todos/hugo.json', (err, data) => {
-  if(err) {
-    console.log(err);
-  } 
-  else {
-    console.log(data);
-  }
-});
-
-getTodos('todos/joseph.json', (err, data) => {
-  if(err) {
-    console.log(err);
-  } 
-  else {
-    console.log(data);
-  }
+getTodos('todos/jaid1.json').then(data => {
+  console.log('Promise resolved:', data);
+}).catch(err => {
+  console.log('Promise rejected:', err);
 });
